@@ -98,7 +98,7 @@ int dontBreak(int pos){
 }
 
 int isHit(int pos){
-  int hit;
+  int hit = 0;
 
   if (pos == ships[0] ||
       pos == ships[1] ||
