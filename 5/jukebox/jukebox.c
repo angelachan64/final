@@ -129,24 +129,11 @@ int send_song(char * user_input, int socket_client){
     	}
     	total_writ += writ_now;
     }
-    // #ifdef __linux__
-    // if( sendfile( socket_client, song_fd, 0, file_size) < 0){
-     	printf("unable to send? \n");
-     	printf("errno %s\n", strerror(errno));
-    //  	write(socket_client, "-1", 3);
-    //  	return -1;
-    //  }
-    //  #else
-    //  if( sendfile(song_fd, socket_client, 0, 0, 0, 0) < 0){
-       printf("unable to send? \n");
-       printf("errno %s\n", strerror(errno));
-    //    write(socket_client, "-1", 3);
-    //    return -1;
-    //  }
-    //  #endif
-    // write(socket_client, song, file_size + 1);
+    printf("unable to send? \n");
+    printf("errno %s\n", strerror(errno));
+    printf("unable to send? \n");
+   	printf("errno %s\n", strerror(errno));
     free(song);
-    // printf("finished writing song\n");
     return 0;
 }
 
@@ -177,11 +164,11 @@ int main() {
   listener.sin_port = htons(24601); 
   listener.sin_addr.s_addr = INADDR_ANY; 
   if (bind(socket_id, (struct sockaddr *)&listener, sizeof(listener)) < 0){
-  	// printf("unable to bind\n");
+  	printf("unable to bind\n");
   	return -1;
   }
   if (listen( socket_id, 1 ) < 0){
-  	// printf("unale to listen\n");
+  	printf("unale to listen\n");
   	return -1;
   }
 
