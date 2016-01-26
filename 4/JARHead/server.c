@@ -106,7 +106,7 @@ int main() {
       
       // Assign and send the client their player name / uid.
       sprintf(buffer, "%c", (char) (97 + *players));
-      (*players) = 0;
+      (*players)++;
       send(socket_client, buffer, sizeof(buffer), 0);
 
       // Fork off a subprocess to handle the client's input.
