@@ -4,7 +4,7 @@ Lian Wong
 
 Max Kong
 
-How to compile:
+##How to compile:
 	
 	type------ $ make
 	
@@ -14,7 +14,7 @@ How to compile:
  	
  	to make the main run
 
-How to use:
+##How to use:
 	 
 	 Upon entering your name, a randomly generated board will be
 	made for you. If you decde to print it , simply type
