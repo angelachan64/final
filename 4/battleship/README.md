@@ -26,27 +26,27 @@ How to use:
 
 Current files that are in use:
 
-a.txt
+	a.txt
 
-board.c
+	board.c
 
-copmmands.txt
+	copmmands.txt
 
-open.c
+	open.c
 
-grid.txt
+	grid.txt
 
-backround_music.c
+	backround_music.c
 
-client.c
+	client.c
 
-server.c
+	server.c
 
-signal.c
+	signal.c
 
-welcome.c
+	welcome.c
 
-song.mp3
+	song.mp3
 
 important to note: while not all of them are being compiled with 
 makefile, all of the functions are cople pasted from these files.
