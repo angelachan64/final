@@ -23,3 +23,9 @@
 
 ### Files:
 
+- README.md
+- BUGS.md
+- TODO.md
+- DESIGN.md
+- oddare.c
+- makefile

@@ -122,7 +122,7 @@ int main() {
 	 
   	printf("<server> listening: %d\n", socket_id);
   	socket_client = accept( socket_id, NULL, NULL );
-//	sleep(2);
+	sleep(2);
   	printf("<server> connected: %d\n", socket_client );
 	
 	int type; // = TUTOR_ID;  // get type from client
@@ -166,7 +166,7 @@ int main() {
 			int tutor_ind = find_tutor(tutee_ind);
 			if (tutor_ind != -1) {
 				char msg[] = "You have been connected to a tutor.";
-				write(tutee_ind, msg, sizeof(msg));
+				write(tutees[tutee_ind][0], msg, sizeof(msg));
 				tutors[tutor_ind][1] = 1;
 
 				while(1) {

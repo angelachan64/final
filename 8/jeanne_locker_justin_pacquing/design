@@ -4,23 +4,31 @@ Project Mates: Jeanne Locker & Justin Pacquing - Pd.8
 
 Project Proposal: Battleship Bash Bros. (BBB)
 
-Description: A program that enables players on different machines to play each other in a game of Battleship!
+Description: A program that enables two players to play each other in a game of Battleship!
 Two players join the game, set up their fleet of 5 ship on a 5x5 board, and take turns guessing their opponent's ship's locations.
 
 Technicals of How It'll Work:
-- One user will run a program to set-up the game and options, waiting on another user to run the program that will connect the two into the game.
-- Both users will then be prompted to set coordinates of their ships, only moving on to the actual game when both are ready.
-- Turns work by the user being prompted to select a coordinate of the opponents to attack
-- Using scanf, user input will determine where the attack will take place.
-- The user will be notified of the success of their move and boards of both the users and opponents will be displayed after every turn.
-- When one player has completely wiped the board of his opponent's ships, they will be declared the winner and the game ends.
+- Player 1 will act as the server who creates and intializes the shared memory and semaphore, as well as the handshake 
+- Player 2 will act as the client who completes the handshake with Player 1.
+- Before the handshake is completed, both users will be prompted to select the coordinates to place their ships.
+- Players make their guesses by using fgets to input an int that will be written into the shared memory.
+That int will then be read by the opponent.
+- As well as reading/writing coordinates to the shared memory, the coordinates must be interpretted by the opponent to see if
+their ships have been hit, and will send a message back through the pipe to the attacker (like yelling "HIT" or "MISS" in 
+real life Battleship)
+- 2 Dimensional Arrays will help both players keep track of their own and their opponents boards by interpretting string 
+results sent through the pipe and updating boards accordingly, which will be printed out at the start of each turn.
+- Once a user has hit all of their opponent's ships, they are declared winner and the game ends.
 
 Concepts/Ideas Used:
-- Reading/Writing to Files
-- Shared Memory/Semaphores
-- Signals
-- Piping
-- Networking
+- Shared Memory: How players make/read guesses of ship coordinates.
+- Semaphores: Prevents both players from reading/writing to shared memory, helps keep turns organized.
+- Piping: Allow's players to send Ship Hit/Missed Messages, which is also key in allowing to create/update boards. 
+- Signals: Allow's players to quit midgame.
+
+How Work Is Broken Down:
+- Justin: Creating Handshake, Dealing with Semaphores and Shared Memory, Generally Putting Everything Together
+- Jeanne: Handling Functions for Prompting Information, Displaying Boards 
 
 Timeline:
 - Set up pipes - 1/14

@@ -1,0 +1,49 @@
+DW APPROVED
+
+WIP**
+
+Kevin Mejia per. 4
+Max Kong per. 8
+Lian Wong per. 4
+Proposal...
+A service where people on different machines can play the 2-player table game "Battleship" 
+against one another on the command shell.
+
+design: users should be able to make an account, which gives them access to some file that saves
+the win-loss record. One user can only access his/her board, not that of the opponent.
+He/she cannot fire a shot until the opponent has fired theirs.
+
+should incorporate:
+//piping and server
+//shared memory and semaphores
+execution of inputs (using fgets to see what a user's shot is)
+parsing strings
+signals when closing /forfeiting game
+using random (when creating a board with ships)
+writing to a file
+streches: 
+cheat codes??
+//timer that calls for a forfeit if turn time is up
+
+Group Member Responsibilities
+Lian: 
+	-The colorful and appealing intro[welcome.c]
+	-basic incorporation of music play[ backgroundmusic.c]
+Kevin: 
+	-ability to write to file, commands from user input that lead into
+ a change in the opponent battleship board
+	-randomization of a person's batleship board
+	-ability to print a nice looking version of the battleship board at will
+	-[board.c]
+Max:
+	-a working server and client connection[?]
+
+Timeline of expected completion
+-important functions in board.c to be completed by Saturday, 1/23
+	--finished by the next morning, 1/24
+-introductory merssage and music to be incoprporated by Sunday, 1/24
+	--finished by the next morning, 1/25
+-basic witing-computer client and server to be made, (if this is done the oher files can come together
+in a main file and project is finsihed,) by Sunday night, 1/25
+
+

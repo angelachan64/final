@@ -1,6 +1,6 @@
 #include "lib.h"
 #define MAXLEN 256
-#define PATH_MAX 2048
+//#define PATH_MAX 2048
 
 void create_new(){
   int f;
@@ -266,7 +266,24 @@ void sign_in(int socket_id){
 
   sock_write(socket_id,final);
   printf("This is what you sent to the server:\n[%s]\n",final);
-  enter_mail(socket_id);
+  
+  //read from socket
+  char buffer[256];
+  int r = read(socket_id, buffer, 256);
+  printf("r: %d\n",r);
+  if(r==-1){
+    perror("Failed to read from socket");
+  }
+  printf("contents of buffer: [%s]\n",buffer);
+  if(strncmp(buffer,"OK",2)==0){
+    enter_mail(socket_id);
+  }else if(strncmp(buffer,"FAIL\nIncorrect password",23)==0){
+    printf("Incorrect password\n");
+  }else if(strncmp(buffer,"FAIL\nNo such user",17)==0){
+    printf("No such user\n");
+  }else{
+    printf("Unspecified error\n");
+  }
 }
 
 void choose_username(char* final, char* use){

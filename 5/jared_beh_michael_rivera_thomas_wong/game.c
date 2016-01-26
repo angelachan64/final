@@ -48,16 +48,16 @@ int turn( char player, int R, int C, int r, int c) {
 
   update_full( super_board[R][C] );
   update_winner( super_board[R][C] );
-  if ( super_board[R][C].full != 0 ) {
+  if ( super_board[r][c].full != 0 ) {
     prev[0] = -1;
     prev[1] = -1;
   }
   else {
-    prev[0] = R;
-    prev[1] = C;
+    prev[0] = r;
+    prev[1] = c;
   }
-  check_win();
-  
+  if(ckeck_win()=='X')return 3;
+  if(check_win()=='O')return 4;
   return 0;
 }
 

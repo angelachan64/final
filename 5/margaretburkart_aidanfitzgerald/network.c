@@ -24,7 +24,7 @@ int sock_write(int sock, char *str) {
 char *sock_read(int sock) {
   unsigned int size;
   if (read(sock, &size, sizeof(size)) < 4) return NULL;
-  size = htonl(size);
+  size = ntohl(size);
 
   char *buffer = malloc(size + 1);
   int actual_bytes_read = read(sock, buffer, size);

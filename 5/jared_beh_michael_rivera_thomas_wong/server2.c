@@ -13,31 +13,27 @@
 
 int socket_id, socket_client;
 int socket_id_2, socket_client_2;
-char line[100];
+char line[82];
 char prev[2];
 
 static void sighandler( int signo ) {
 
   if ( signo == SIGINT ) {
     printf("Interrupted... how rude!\n");
-    line[0]='F';
-    line[1]='A';
-    line[2]='I';
-    line[3]='L';
-    write(socket_id,line,4);
+    line[0]='4';
+    write(socket_id,line,82);
     close(socket_id);
-    write(socket_id_2,line,4);
+    write(socket_id_2,line,82);
     close(socket_id_2);
     exit(0);
   }
 }
 int main() {
-  /*
-
-*/
+  
   struct sockaddr_in listener;
 
   int f=1;
+  int t=0;
 
   while(1){
     if(f){
@@ -86,12 +82,42 @@ int main() {
     }
     //instructions for child
     if(!f){
-      write( socket_client, line, 4 );
-      read( socket_id, line, 4 );
-      turn( line[0],line[1],line[2], line[3] );
-      write( socket_client_2, line, 4 );
-      read(socket_id_2, line, 4);
-      turn( line[0],line[1],line[2], line[3] );
+      if( !t ){
+	//receive and send for X
+	write( socket_client, line, 82 );
+	read( socket_id, line, 4 );
+	t = turn( 'X',line[0],line[1],line[2], line[3] );
+	prev[0]=line[2];
+	prev[1]=line[3];
+      }
+      if( !t){
+	//receive and send for O
+	write( socket_client_2, line, 82 );
+	read(socket_id_2, line, 4);
+	t = turn( 'O',line[0],line[1],line[2], line[3] );
+	prev[0]=line[2];
+	prev[1]=line[3];
+      }
+      //if x wins
+      if(t==3){
+	line[0]='3';
+	write(socket_client,line,82);
+	line[0]='4';
+	write(socket_client_2,line,82);
+      }
+      //if o wins
+      if(t==4){
+	line[0]=4;
+	write(socket_client,line,82);
+	line[0]=3;
+	write(socket_client_2,line,82);
+      }
+      //exit on win
+      if(t>2){
+	close(socket_id);
+	close(socket_id_2);
+	exit(0);
+      }
     }
     else{
       //close connections

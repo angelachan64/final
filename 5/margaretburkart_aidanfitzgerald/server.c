@@ -101,7 +101,7 @@ void server_talk(int socket_client) {
     }
     else {
       buffer[r] = 0;
-      printf("Read input: %10s\n", buffer);
+      printf("Read input: %s (%lu bytes)\n", buffer, strlen(buffer));
     }
 
     // TODO: parse input
@@ -213,12 +213,17 @@ user *server_login(char *buffer) {
   user *account = user_find(u->name);
   printf("user_find\n");
 
+#define free_account() do { \
+    free(account->passwd); \
+    free(account); \
+  } while (0);
+
   if (account) {
     if (strcmp(u->passwd, account->passwd) == 0) {
       // Username and password correct
       printf("Correct login\n");
       
-      user_freemem(account);
+      free_account();
       return u;
     }
 
@@ -227,7 +232,7 @@ user *server_login(char *buffer) {
       printf("Valid username, wrong password\n");
       
       user_freemem(u);
-      user_freemem(account);
+      free_account();
       errno = EACCES;
       return NULL;
     }

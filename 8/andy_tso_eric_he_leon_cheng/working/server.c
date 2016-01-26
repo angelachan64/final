@@ -192,6 +192,7 @@ void doprocessing (int sock) {
     if (read_card->color <= 20) {
       array[1] = read_card->color;
       array[2] = read_card->value;
+      
     //Need to turn buffer and buffer3 into ints
     /*************************************************************
     if ( array[1] == buffer || array[2] == buffer3 ) {
@@ -201,6 +202,7 @@ void doprocessing (int sock) {
     *************************************************************/
       printf( "top color %d top value %d\n", array[1], array[2] );
     }
+      
     //array[1] color
     //array[2] value
     /*char cvalue[100];

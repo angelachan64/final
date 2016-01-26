@@ -1,47 +1,55 @@
-DW APPROVED
+Kevin Mejia
 
-WIP**
+Lian Wong 
 
-Kevin Mejia per. 4
-Max Kong per. 8
-Lian Wong per. 4
-Proposal...
-A service where people on different machines can play the 2-player table game "Battleship" 
-against one another on the command shell.
+Max Kong
 
-design: users should be able to make an account, which gives them access to some file that saves
-the win-loss record. One user can only access his/her board, not that of the opponent.
-He/she cannot fire a shot until the opponent has fired theirs.
+##How to compile:
+	
+	type------ $ make
+	
+	to compile things according to the rules and depencies stated in makefile
+	
+	then type ---------$ make run
+ 	
+ 	to make the main run
 
-should incorporate:
-//piping and server
-//shared memory and semaphores
-execution of inputs (using fgets to see what a user's shot is)
-parsing strings
-signals when closing /forfeiting game
-using random (when creating a board with ships)
-writing to a file
-streches: 
-cheat codes??
-//timer that calls for a forfeit if turn time is up
+##How to use:
+	 
+	 Upon entering your name, a randomly generated board will be
+	made for you. If you decde to print it , simply type
+	'print board' at anytime to access your board. It will be
+	filled with either -1, 0, or 1 for the spaces that represent 
+	your ships. -1 is a space with no ship at all. The 0 
+	is the place for a ship that hasn't been shot. the 1 represents
+	an enemy ship that IS shot. 
+	As the user, you need to input the commands '1A, 3B, 4C' , etc,
+	to fire a shot and to guess where one of the enemy ships is
 
-Group Member Responsibilities
-Lian: 
-	-The colorful and appealing intro[welcome.c]
-	-basic incorporation of music play[ backgroundmusic.c]
-Kevin: 
-	-ability to write to file, commands from user input that lead into
- a change in the opponent battleship board
-	-randomization of a person's batleship board
-	-ability to print a nice looking version of the battleship board at will
-	-[board.c]
-Max:
-	-a working socket connection[?]
+##Current files that are in use:
 
-Timeline of expected completion
--important functions in board.c to be completed by Saturday, 1/23
-	--finished by the next morning, 1/24
--introductory merssage and music to be incoprporated by Sunday, 1/24
-	--finished by the next morning, 1/25
--basic witing-computer client and server to be made, (if this is done the oher files can come together
-in a main file and project is finsihed,) by Sunday night, 1/25
+	a.txt
+
+	board.c
+
+	commands.txt
+
+	open.c
+
+	grid.txt
+
+	backround_music.c
+
+	client.c
+
+	server.c
+
+	signal.c
+
+	welcome.c
+
+	song.mp3
+
+important to note: while not all of them are being compiled with 
+makefile, all of the functions are cople pasted from these files.
+

@@ -21,7 +21,7 @@ int main(){
     //wait(&status);
   }
   else {
-    execlp("aplay", "aplay", "song.mp3", 0);
+    execlp("afplay", "afplay", "song.mp3", 0);
   }
   
     p1 = fork();

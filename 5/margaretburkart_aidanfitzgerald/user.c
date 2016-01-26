@@ -11,43 +11,48 @@ user *user_find(char *name) {
 
   // Read file into buffer
   FILE *uf = fopen(ufname, "r");
-  char *ufbuffer = malloc(ufsize + 1);
-  if (!fgets(ufbuffer, ufsize + 1, uf)) return NULL;
+  char *line = malloc(ufsize + 1);
+
+  // x is the same as line or NULL if fgets runs dry
+  char *x;
+  while (x = fgets(line, ufsize + 1, uf)) {
+    printf("%s\n", line);
+    if (strstart(line, name)) break;
+  }
   fclose(uf);
 
   // Done working with file
   free(ufname);
 
-  // Parse tokens - lines - and find the line that contains the correct username
-  char *token = strtok(ufbuffer, "\n");
-  while (token && !strstart(token, name)) {
-    printf("%s\n", token);
-    token = strtok(NULL, "\n");
-  }
+  if (x) {
+    printf("%s\n", line);
 
-  if (token) {
-    // Parse at the first comma
-    token = strtok(token, ",");
+    // Parse line at the first comma
+    char *token = strtok(line, ",");
+    
     // Get the string after the comma - that's the password
     token = strtok(NULL, ",");
 
     // malloc and strcpy ensures that passwd is freeable later
     char *passwd = malloc(strlen(token) + 1);
     strcpy(passwd, token);
-
+    
     // Done with the buffer
-    free(ufbuffer);
+    free(line);
     
     // User found - indicated by presence of password field
     user *found = malloc(sizeof(user));
     found->name = name;
     found->passwd = passwd;
+    
+    printf("%s / %s\n", found->name, found->passwd);
+    
     return found;
   }
-
+  
   else {
     // User not found
-    free(ufbuffer);
+    free(line);
     return NULL;
   }
   

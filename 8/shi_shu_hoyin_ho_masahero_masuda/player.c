@@ -44,17 +44,18 @@ int player_handshake(int *from_server, int *id){
 }
 
 
-card *receiveHand(int *from_server,int id){
+void receiveHand(int *from_server,int id,card *newHand[7]){
   char buffer[100];
   int counter = 0;
-  card *newHand = (card *)malloc(sizeof(card)*7);
   while (counter < 7){
     read(*from_server,buffer,sizeof(buffer));
-    newHand[counter] = *makecard(buffer,"red");
-    newHand[counter].owner = id;
+    (*newHand)[counter] = *makecard(buffer,"red");
+    ((*newHand)[counter]).owner = id;
+    printf("%s\n",((*newHand)[counter]).content);
     counter++;
   }
-  return newHand;
+  //printf("%p\n",newHand);
+  //return &newHand[0];
 }
 
 //Card methods//
@@ -134,18 +135,22 @@ int main(){
   int to_server;
   int from_server;
   char buffer[100];
-  card red_hand[7];
-  card green_hand[8];
+  //card green_hand[8];
   int id;
-  
+  card red_hand[7];
   to_server = player_handshake(&from_server,&id);
-  red_hand = receiveHand(&from_server, &id);
-  int counter = 0;
+  //card *red_hand = (card *)malloc(sizeof(card) * 7);
+  printf("%d\n",id);
+  int counter = 0;  
   while(counter < 7){
-    printf("%s\n",hand[counter].content);
+    read(from_server, buffer,sizeof(buffer));
+    red_hand[counter] = *makecard(buffer,"red");
+    red_hand[counter].owner = id;
+    printf("%s\n",red_hand[counter].content);
     counter++;
   }
-  printf("%s\n",hand[7].content);
+  // printf("%p\n",&red_hand);
+  //printf("%s\n",hand[7].content);
   /*while(1){
     send_redcard(to_server);
     send_greencard(to_server);

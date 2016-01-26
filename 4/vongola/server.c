@@ -8,6 +8,8 @@
 #include <netinet/in.h>
 #include <errno.h>
 
+#include <time.h>
+
 void send_to_all(char *line, int fd, fd_set *master, int fdmax, int socket_id){
   int i;
   for (i = 3; i <= fdmax; i++){
@@ -108,7 +110,11 @@ void accept_client(int *socket_id, fd_set *master, int *fdmax){
 int main() {
   int socket_id, i;
   fd_set master, read_fds;
-  
+  int day = 0;
+  int hold = day;//helps to check if day has changed
+  int num_players = 0;
+  clock_t start,diff;
+    
   char **ulist = (char**)calloc(15, sizeof(char *));
   for(i = 0; i < 15; i++){
     ulist[i] = (char *)calloc(16, sizeof(char));
@@ -120,20 +126,67 @@ int main() {
   int fdmax = socket_id;
 
   while(1){
+    //printf("Here\n");
     read_fds = master;
+    if(num_players<1){
+      num_players=0;
+      for(i = 0; i < 15; i++)
+	if(strlen(ulist[i])>0)
+	  num_players++;
+    }
+    printf("Players:%d\n",num_players);
+    if (num_players>=1){//once num_players has reached a number, game begins
+      printf("HERE!\n");
+      day = 1;
+    }
+    if(day>=1){
+      if (hold!=day){
+	printf("here2\n");
+	start = clock();
+      }
+      else{
+	printf("here!\n");
+	diff = clock() - start;
+	printf("%d\n",diff/CLOCKS_PER_SEC);
+	if(diff/CLOCKS_PER_SEC>=10)
+	  day++;
+      }
+    }
+    printf("here3\n");
     if (select(fdmax+1, &read_fds, NULL, NULL, NULL) == -1){
       printf("select: %s\n", strerror(errno));
       exit(0);
     }
+    if(hold!=day){
+      printf("Here4\n");
+      char d[20];
+      if(day%2==1)
+	sprintf(d,"Start of Day %d\n",day/2+1);
+      else
+	sprintf(d,"Start of Night %d\n",day/2);
+      send_to_all(d,0,&master,fdmax,socket_id);
+    }
     for(i = 3; i <= fdmax; i++){
+      printf("Here2 %d,%d\n",hold,day);
       if(FD_ISSET(i, &read_fds)){
-	if(i == socket_id){
-	  accept_client(&socket_id, &master, &fdmax);
+	if(i == socket_id){//if a client is trying to connect
+	  //printf("Here3\n");
+	    accept_client(&socket_id, &master, &fdmax);
 	}else{
 	  process(i, &master, fdmax, socket_id, ulist);
 	}
+	/*if(hold!=day){
+	  printf("Here4\n");
+	  char d[20];
+	  if(day%2==1)
+	    sprintf(d,"Start of Day %d",day/2+1);
+	  else
+	    sprintf(d,"Start of Night %d",day/2);
+	    send(i,d,strlen(d),0);
+	    }*/
       }
     }
+    hold=day;
   }
 
   return 0;

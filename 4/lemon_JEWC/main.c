@@ -83,7 +83,7 @@ void editstring()
     s3[j] = '\0';
     printf("\nthe string after modification is\n\n %s\n", s3);
 }
-
+/**
 void append(char old[], const char new[], int index) {
     char buf[1000]; 
     strncpy(buf, old, index); 
@@ -93,6 +93,20 @@ void append(char old[], const char new[], int index) {
     strcpy(buf+len, old+index); 
     strcpy(old, buf);   
 }
+*/
+
+void append(char old[], char new, int index) {
+    char buf[1000]; 
+    char new2[1000];
+    new2[0]=new;
+    strncpy(buf, old, index); 
+    int len = strlen(buf);
+    strcpy(buf+len, new2);
+    len += strlen(new2);  
+    strcpy(buf+len, old+index); 
+    strcpy(old, buf);   
+}
+
 
 void del_char(char str[],int dex){
   int z=dex;

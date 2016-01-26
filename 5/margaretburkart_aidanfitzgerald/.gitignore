@@ -1,6 +1,7 @@
 *~
 mail/
 mail.d/
+my_mail.d/
 *.o
 client
 server

@@ -1,4 +1,4 @@
-all: server server_setup
+all: server server_setup client client_setup
 
 # Executables
 server: server.o user.o dir.o network.o
