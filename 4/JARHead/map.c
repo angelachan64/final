@@ -32,3 +32,26 @@ void display_printw(char* map) {
 
 void update(char* map) {
 }
+
+int index_to_x(int index) {
+  return index % MAP_WIDTH;
+}
+
+int index_to_y(int index) {
+  return (index - index_to_x(index)) / MAP_HEIGHT;
+}
+
+void add_new_player(char* map, char player) {
+  int x = rand() % MAP_WIDTH;
+  int y = rand() % MAP_HEIGHT;
+  
+}
+
+void move_player(char* map, char player, int up, int left) {
+  int index = strchr(map, player);
+  int x, y;
+  x = index_to_x(index);
+  y = index_to_y(index);
+  
+  
+}

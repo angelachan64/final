@@ -111,13 +111,14 @@ int main(int argc, char *argv[]) {
     //if ( !strcmp(buffer2, "go") ) {
     //read_mssg->mssg = "go";
     else if ( !strcmp(read_mssg->mssg, "go") ) {
-      printf("Please enter the message: ");
       bzero(buffer,256);
+      printf("Please enter the message: ");
       fgets(buffer,255,stdin);
 
       char * scard1;
       char * scard2;
       int num = atoi(buffer);
+      
       //printf( "debugging\n");
       if (num==p.num_cards){
         card *write_card = (card*)malloc(sizeof(card));

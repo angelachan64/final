@@ -258,7 +258,7 @@ int main(){
       break;
     }
     else if (!strcmp(result,"Ship Missed!\n")){
-      if (!(myboard[incoord/10 - 1][incoord%10 - 1] == 'H'))
+      if (!(oppboard[incoord/10 - 1][incoord%10 - 1] == 'H'))
 	oppboard[incoord/10 - 1][incoord%10 - 1] = 'M';
     }
     else if (!strcmp(result,"Ship Hit!\n")){

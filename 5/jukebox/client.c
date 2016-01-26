@@ -18,17 +18,17 @@ void parse(char * command, int socket_id){
   strcpy(command_copy, command);
   command = strsep(&command, " ");
   if(command_copy[0] == 'p'){ //play cmd goes here
-	printf("boutta play\n");
+	// printf("boutta play\n");
 	send_to_server(command_copy, socket_id);
 	play_song(socket_id);
 	}	
   else if(command_copy[0] == 'q'){
-		printf("boutta quit\n");
+		// printf("boutta quit\n");
 		send_to_server(command_copy, socket_id);
 		exit(1);
     }
   else if(command_copy[0] == 'l'){
-      printf("boutta list\n");
+      // printf("boutta list\n");
       send_to_server(command_copy, socket_id);
       list_songs(socket_id);
     }
@@ -47,13 +47,13 @@ void send_to_server(char * message, int socket_id){
 }
 
 void list_songs(int socket_id){
-	printf("in th list fun\n");
+	//printf("in th list fun\n");
   char songs[1024];
   if (read(socket_id, songs, sizeof(songs)) < 0 ){
   	printf("unable to read songs\n");
   }
   else {
-  	printf("Client:Song List Received From Server -  \n%s\n", songs);
+  	printf("Song List Received From Server -  \n%s\n", songs);
   }
 }
 
@@ -64,21 +64,27 @@ void play_song(int socket_id){
   void * mp3 = calloc(1, 1048576); // 1mb at a time
   int song_file;
   song_file = open("temp.mp3", O_CREAT | O_RDWR | O_TRUNC | O_APPEND , 0644);
-  // if (recv(socket_id, mp3, 1048576 * 10, 0) < 0){
-  // 	printf("erro readin\n");
-  // }
+
+  //first read file siz
+	int tmp, file_size;
+	read(socket_id, &tmp, sizeof(tmp));
+	file_size = ntohl(tmp);
+
+	int total_read = 0;
   int read_ret;
-  printf("ready to roll and read dat song\n");
-  while ((read_ret = read(socket_id, mp3, 1048576)) > 0){
-  	printf("read ret: %d\n", read_ret);
-  	printf("readin\n");
+  // printf("ready to roll and read dat song\n");
+  while (total_read < file_size && (read_ret = read(socket_id, mp3, 1048576)) > 0 ){
+  	// printf("read ret: %d\n", read_ret);
+  	// printf("readin\n");
   	if (read_ret > 0){
+  		// printf("read in: %s\n", (char *)mp3);
+  		total_read += read_ret;
 		write(song_file, mp3, read_ret);
 	}
-	printf("will I read again?\n");
+	// printf("will I read again?\n");
   }
-  printf("left dat loop\n");
-  //printf("Client:Message Received From Server -  %s\n", mp3);
+  // printf("left dat loop\n");
+  printf("Client:Message Received From Server -  %s\n", mp3);
   if (strcmp(mp3, "-1") == 0){
   	printf("unable to play the song\n");
   	return;
@@ -98,15 +104,15 @@ int main(int argc, char **argv) {
   sock.sin_family = AF_INET;   
   sock.sin_port = htons(24601);
   inet_aton( "127.0.0.1", &(sock.sin_addr) );
-  bind( socket_id, (struct sockaddr *)&sock, sizeof(sock));
-  printf("errno: %s\n", strerror(errno));
+  if (bind( socket_id, (struct sockaddr *)&sock, sizeof(sock)) < 0){
+  	printf("errno: %s\n", strerror(errno));
+  	exit(0);
+  }
   i = connect(socket_id, (struct sockaddr *)&sock, sizeof(sock));
   if (i < 0 ){
   	printf("error connecting, quitting\n");
   	exit(0);
   }
-  printf("<client> connect returned: %d\n", i);
-  printf("errno: %s\n", strerror(errno));
   char input[256];
   while(1){
     printf("type p followed by a songId to play that song(with a space) \ntype l to see a list of available songs \ntype q to quit the jukebox:\n");
