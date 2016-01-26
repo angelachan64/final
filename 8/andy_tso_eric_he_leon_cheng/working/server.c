@@ -284,7 +284,6 @@ int main( int argc, char *argv[] ) {
   array[1] = 20; //any color
   array[2] = 20; //any value
   printf( "<server> Set int to %d\n", array[0] );
-  shmdt( (void *)array );
       
   //printf( "CREATE SEMAPHORE\n\n" );
   //semid = semget( sem_key, 1, 0644 | IPC_CREAT | IPC_EXCL);
@@ -331,7 +330,7 @@ int main( int argc, char *argv[] ) {
   printf("player_count: %d\n", player_count);
   printf("desired_total: %d\n", desired_total);
   
-  while (1) {
+  while ( array[1] != 100 ) {
     if(player_count <= desired_total){
       
       newsockfd = accept(sockfd, (struct sockaddr *) &cli_addr, &clilen);
@@ -399,7 +398,9 @@ int main( int argc, char *argv[] ) {
     }
     else {
       /* Close the client if desired_total num of players aleady connected */
-      write(newsockfd, "terminate", sizeof("terminate"));
+      init *write_mssg = (init*)malloc(sizeof(init));
+      strcpy( write_mssg->mssg, "terminate" ); 
+      write(newsockfd, write_mssg, sizeof(init));
       close(newsockfd);
       if (pid==0){
 	      close(sockfd);
@@ -407,5 +408,6 @@ int main( int argc, char *argv[] ) {
     }
 		
   } /* end of while */
-
+  shmdt( (void *)array );
+  return 1;
 }

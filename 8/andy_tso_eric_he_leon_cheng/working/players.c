@@ -202,7 +202,7 @@ void player_action(player p) {
 
 
 player generate_hand(player p){
-  for (p.num_cards = 0; p.num_cards<1; p.num_cards++){
+  for (p.num_cards = 0; p.num_cards<7; p.num_cards++){
     p.cards[p.num_cards] = draw_card();
     //printf("p.cards[p.num_cards].value: %d \n", p.cards[p.num_cards].value);
     //printf("p.cards[p.num_cards].color: %d \n", p.cards[p.num_cards].color);
