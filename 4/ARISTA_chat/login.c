@@ -113,40 +113,42 @@ int registereduser() {
   int username;
   scanf("%i",&username);
   char passwd[16];
-   if (1000 <= username && username <= 9999) {
-     char buffer[100];
-     strcpy(buffer,username);
-	int num;
-	num = does_user_exist(buffer);
-	printf("%s\n",buffer);
-//     if (does_user_exist(buffer) != 0) {
-      char *in = passwd;
-      struct termios  tty_orig;
-      char c;
-      tcgetattr( STDIN_FILENO, &tty_orig );
-      struct termios  tty_work = tty_orig;
-      puts("Please input password:");
-      tty_work.c_lflag &= ~( ECHO | ICANON );
-      tty_work.c_cc[ VMIN ]  = 1;
-      tty_work.c_cc[ VTIME ] = 0;
-      tcsetattr( STDIN_FILENO, TCSAFLUSH, &tty_work );
+  if (1000 <= username && username <= 9999) {
+    /*   
+ char buffer[100];
+    strcpy(buffer,username);
+    int num;
+    num = does_user_exist(buffer);
+    printf("%s\n",buffer);
+    //     if (does_user_exist(buffer) != 0) {
+    */    
+char *in = passwd;
+    struct termios  tty_orig;
+    char c;
+    tcgetattr( STDIN_FILENO, &tty_orig );
+    struct termios  tty_work = tty_orig;
+    puts("Please input password:");
+    tty_work.c_lflag &= ~( ECHO | ICANON );
+    tty_work.c_cc[ VMIN ]  = 1;
+    tty_work.c_cc[ VTIME ] = 0;
+    tcsetattr( STDIN_FILENO, TCSAFLUSH, &tty_work );
 
-      while (1) {
-	if (read(STDIN_FILENO, &c, sizeof c) > 0) {
-	  if ('\n' == c) {
-	    break;
-	  }
-	  *in++ = c;
-	  write(STDOUT_FILENO, "*", 1);
+    while (1) {
+      if (read(STDIN_FILENO, &c, sizeof c) > 0) {
+	if ('\n' == c) {
+	  break;
 	}
+	*in++ = c;
+	write(STDOUT_FILENO, "*", 1);
       }
+    }
 
-      tcsetattr( STDIN_FILENO, TCSAFLUSH, &tty_orig );
+    tcsetattr( STDIN_FILENO, TCSAFLUSH, &tty_orig );
 
-      *in = '\0';
-      fputc('\n', stdout);
-      return username;
-  //  }
+    *in = '\0';
+    fputc('\n', stdout);
+    return username;
+    //  }
   } else {
     printf("That account doesn't exist yet. Please register for a new account.\n");
     username = newuser();
