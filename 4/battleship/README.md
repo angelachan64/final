@@ -26,7 +26,7 @@ Max Kong
 	As the user, you need to input the commands '1A, 3B, 4C' , etc,
 	to fire a shot and to guess where one of the enemy ships is
 
-Current files that are in use:
+##Current files that are in use:
 
 	a.txt
 
