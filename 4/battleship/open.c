@@ -30,7 +30,7 @@ int main(){
       wait(&status1);
     }
     else{
-
+      sleep(2);
       printf("OOOOOO\n");
       printf("OO   OO\n");
       printf("OO  OO\n");
