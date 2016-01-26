@@ -3,7 +3,6 @@ known bugs when compiling:
 the place, almost serving as a space. This needs to be investigated further.
 Perhaps it has soemthing to do with the size or type of the buffer 
 used in writing?
--in background_music.c, there was an incident where the opening
+[FIXED]-in background_music.c, there was an incident where the opening
 message wont print at the same time that the opening music is played.
-Even when we fork, one won't start until the other is finished. Is this
-ust an impossible feature while in terminal?
+
