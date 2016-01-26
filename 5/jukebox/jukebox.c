@@ -110,21 +110,33 @@ int send_song(char * user_input, int socket_client){
 
     //send song over socket
     printf("boutta write song to client\n");
-    #ifdef __linux__
-    if( sendfile( socket_client, song_fd, 0, file_size) < 0){
-     	printf("unable to send? \n");
-     	printf("errno %s\n", strerror(errno));
-     	write(socket_client, "-1", 3);
-     	return -1;
-     }
-     #else
-     if( sendfile(song_fd, socket_client, 0, 0, 0, 0) < 0){
-       printf("unable to send? \n");
-       printf("errno %s\n", strerror(errno));
-       write(socket_client, "-1", 3);
-       return -1;
-     }
-     #endif
+    int total_writ;
+    while(total_writ < file_size){
+    	printf("writin writing writin\n");
+    	int writ_now = write(socket_client, &song[total_writ], file_size - total_writ);
+    	if (writ_now < 0){
+    		printf("couldn't write song to client\n");
+    		printf("errno %s\n", strerror(errno));
+    		write(socket_client, "-1", 3);
+    		return -1;
+    	}
+    	total_writ += writ_now;
+    }
+    // #ifdef __linux__
+    // if( sendfile( socket_client, song_fd, 0, file_size) < 0){
+    //  	printf("unable to send? \n");
+    //  	printf("errno %s\n", strerror(errno));
+    //  	write(socket_client, "-1", 3);
+    //  	return -1;
+    //  }
+    //  #else
+    //  if( sendfile(song_fd, socket_client, 0, 0, 0, 0) < 0){
+    //    printf("unable to send? \n");
+    //    printf("errno %s\n", strerror(errno));
+    //    write(socket_client, "-1", 3);
+    //    return -1;
+    //  }
+    //  #endif
     // write(socket_client, song, file_size + 1);
     free(song);
     printf("finished writing song\n");

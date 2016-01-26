@@ -68,24 +68,22 @@ void play_song(int socket_id){
   // 	printf("erro readin\n");
   // }
   int read_ret;
-  while ((read_ret = read(socket_id, mp3, 1048576))){
+  printf("ready to roll and read dat song\n");
+  while ((read_ret = read(socket_id, mp3, 1048576)) > 0){
+  	printf("read ret: %d\n", read_ret);
   	printf("readin\n");
   	if (read_ret > 0){
 		write(song_file, mp3, 1048576);
 	}
-	if (read_ret < 0){
-		printf("unable to play\n");
-		return;
-	}
-	if (read_ret == 0){
-		break; //totAL FILE READ
-	}
+	printf("will I read again?\n");
   }
+  printf("left dat loop\n");
   //printf("Client:Message Received From Server -  %s\n", mp3);
   if (strcmp(mp3, "-1") == 0){
   	printf("unable to play the song\n");
   	return;
   }
+  printf("gonna play now?\n");
   playsong();
   //playsong code
   //  recieve mp3 file, save it to a temp file, play, delete it from the temp file
