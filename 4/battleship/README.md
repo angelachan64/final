@@ -13,6 +13,7 @@ How to compile:
  	to make the main run
 
 How to use:
+	 
 	 Upon entering your name, a randomly generated board will be
 	made for you. If you decde to print it , simply type
 	'print board' at anytime to access your board. It will be
@@ -22,17 +23,29 @@ How to use:
 	an enemy ship that IS shot. 
 	As the user, you need to input the commands '1A, 3B, 4C' , etc,
 	to fire a shot and to guess where one of the enemy ships is
+
 Current files that are in use:
+
 a.txt
+
 board.c
+
 copmmands.txt
+
 open.c
+
 grid.txt
+
 backround_music.c
+
 client.c
+
 server.c
+
 signal.c
+
 welcome.c
+
 song.mp3
 
 important to note: while not all of them are being compiled with 
