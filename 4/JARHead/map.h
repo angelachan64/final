@@ -11,5 +11,6 @@
 void init(char* map);
 void display_printf(char* map);
 void display_printw(char* map);
+void update(char* map);
 
 #endif

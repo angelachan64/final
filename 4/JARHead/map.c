@@ -29,3 +29,6 @@ void display_printw(char* map) {
   }
   printw("\n");
 }
+
+void update(char* map) {
+}
