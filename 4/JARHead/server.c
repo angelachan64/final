@@ -72,7 +72,7 @@ int main() {
   // Initialize the map
   map = shmat(map_memory_segment, 0, 0);
   players = shmat(players_memory_segment, 0, 0);
-  (*players) = 1;
+  (*players) = 0;
   init(map);
 
   // Create the socket that will allow client connections.
@@ -107,7 +107,8 @@ int main() {
       players = shmat(players_memory_segment, 0, 0);
 
       // Assign and send the client their player name / uid.
-      sprintf(buffer, "%c", (char) (97 + *players));
+      char new_player = (char) (97 + *players);
+      sprintf(buffer, "%c", new_player);
       (*players)++;
       send(socket_client, buffer, sizeof(buffer), 0);
 
