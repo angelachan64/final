@@ -1,5 +1,7 @@
 Kevin Mejia
+
 Lian Wong 
+
 Max Kong
 
 How to compile:
@@ -30,7 +32,7 @@ Current files that are in use:
 
 	board.c
 
-	copmmands.txt
+	commands.txt
 
 	open.c
 
