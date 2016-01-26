@@ -51,5 +51,5 @@ Max Kong
 	song.mp3
 
 important to note: while not all of them are being compiled with 
-makefile, all of the functions are cople pasted from these files.
+makefile, all of the functions are likely to be copy pasted from these files.
 

@@ -106,9 +106,11 @@ int main(int argc, char *argv[]) {
     printf( "mssg: %s\n", read_mssg->mssg );
     if ( !strcmp( read_mssg->mssg, "terminate" ))
       break;
+    else if ( !strcmp( read_mssg->mssg, "END"))
+      printf("Game over! Someone won.\n");
     //if ( !strcmp(buffer2, "go") ) {
     //read_mssg->mssg = "go";
-    if ( !strcmp(read_mssg->mssg, "go") ) {
+    else if ( !strcmp(read_mssg->mssg, "go") ) {
       printf("Please enter the message: ");
       bzero(buffer,256);
       fgets(buffer,255,stdin);
@@ -127,8 +129,8 @@ int main(int argc, char *argv[]) {
 	      scard1 = "draw";
 	      scard2 = "draw";
 	      // SENDING CARD PLAYED BY PLAYER
-	      write_card->color = 20;
-	      write_card->value = 20;
+	      write_card->color = 21;
+	      write_card->value = 21;
 	      int z = write(sockfd, write_card, sizeof(card) );
 	      if (z < 0) {
           perror("ERROR writing");
@@ -150,6 +152,18 @@ int main(int argc, char *argv[]) {
       	scard2 = cvalue;
       	if ( c.color == read_mssg->top_card.color || c.value == read_mssg->top_card.value || read_mssg->top_card.color == 20) {
       	  p = remove_card(p, num);
+      	  if ( win_scenario(p) == 100 ) {
+      	    printf("You won!\n");
+      	    write_card->color = 100;
+	          write_card->value = 100;
+	          int z = write(sockfd, write_card, sizeof(card) );
+	          if (z < 0) {
+              perror("ERROR writing");
+              printf("error: %s \n", strerror(errno));
+              exit(1);
+            }
+      	    exit(0);
+      	  }
       	  printf("Successfully placed card!\n");
       	  write_card->color = color;
 	        write_card->value = value;
