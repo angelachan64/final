@@ -73,7 +73,7 @@ void play_song(int socket_id){
   	printf("read ret: %d\n", read_ret);
   	printf("readin\n");
   	if (read_ret > 0){
-		write(song_file, mp3, 1048576);
+		write(song_file, mp3, read_ret);
 	}
 	printf("will I read again?\n");
   }

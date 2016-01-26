@@ -11,13 +11,14 @@
 
 int newuser() {
   int moveon = 0;
+  int username = 0000;
   char passwd[16];
-  int username = 0;
   while (moveon == 0) {
     printf("Type in your 4-digit ID for the username.\n");
+    int username;
     char buffer[100];
     fgets(buffer, 100, stdin);
-    if (sscanf(buffer, "%d", &username)) {
+  if (sscanf(buffer, "%d", &username)) {
       if (username >= 1000 && username <= 9999) {
 	char *in = passwd;
 	struct termios  tty_orig;
@@ -29,6 +30,7 @@ int newuser() {
 	tty_work.c_cc[ VMIN ]  = 1;
 	tty_work.c_cc[ VTIME ] = 0;
 	tcsetattr( STDIN_FILENO, TCSAFLUSH, &tty_work );
+	
 	while (1) {
 	  if (read(STDIN_FILENO, &c, sizeof c) > 0) {
 	    if ('\n' == c) {
@@ -38,11 +40,12 @@ int newuser() {
 	    write(STDOUT_FILENO, "*", 1);
 	  }
 	}
+	
 	tcsetattr( STDIN_FILENO, TCSAFLUSH, &tty_orig );
-
+	
 	*in = '\0';
 	fputc('\n', stdout);
-
+	
 	char check[16];
 	char *checkin =  check;
 	struct termios  tty_check;
@@ -54,6 +57,7 @@ int newuser() {
 	tty_checking.c_cc[ VMIN ]  = 1;
 	tty_checking.c_cc[ VTIME ] = 0;
 	tcsetattr( STDIN_FILENO, TCSAFLUSH, &tty_checking );
+	
 	while (1) {
 	  if (read(STDIN_FILENO, &d, sizeof(d)) > 0) {
 	    if ('\n' == d) {
@@ -65,64 +69,61 @@ int newuser() {
 	}
 
 	tcsetattr( STDIN_FILENO, TCSAFLUSH, &tty_check );
-
+	
 	*checkin = '\0';
 	fputc('\n', stdout);
-
+	
 	if(strcmp(passwd,check) != 0) {
 	  printf("Error: Passwords don't match. Please try again.\n");
 	} else {
-	  char newuser[1000];
-	  snprintf(newuser,sizeof(newuser), "%i: %s\n",username,passwd);
-	  int fd = open("tutoraccounts.txt",O_RDWR | O_APPEND,0644);
-	  write(fd, newuser, strlen(newuser));
-	  close(fd);
-	  moveon = 1;
+	  break;
+	  moveon == 1;
 	}
-      } else {
-	printf("Error: Invalid username. Please input your 4-digit ID.\n");
       }
+
+ int fd = open("tutoraccounts.txt",O_RDWR | O_APPEND,0644);
+  write(fd, newuser, strlen(newuser));
+  close(fd);
+
+  return username;
+
+    } else {
+      printf("Error: Invalid username. Please input your 4-digit ID.\n");
+	return 0;
     }
   }
-  return username;
 }
 
-int does_user_exist(char* username) {
-  FILE *fp;
-  int line_num = 1;
-  int find_result = 0;
-  char temp[512];
-
-  if((fp = fopen("tutoraccounts.txt", "r")) == NULL) {
-    return(-1);
+int find_user_match(char *username) {
+  FILE* fd = fopen("tutoraccounts.txt", "r");
+  char *buffer = (char *)malloc(500*sizeof(char));
+  fread(buffer, sizeof(char), 500, fd);
+  username = strsep(&username, "\n");
+  printf("username:%s\n", username);
+  printf("buffer: %s\n", buffer);
+  if (strstr(buffer, username) == NULL) {//if username isn't taken 
+    printf("find_user_match() returned NULL. Your username is acceptable.\n");
+    buffer = "";
+    fclose(fd);
+    return 1;
   }
-  while(fgets(temp, 512, fp) != NULL) {
-    if((strstr(temp, username)) != NULL) {
-      printf("A match found on line: %d\n", line_num);
-      printf("\n%s\n", temp);
-      find_result++;
-    }
-    line_num++;
+  else {
+    printf("Your username is taken. Please try again.\n");
+    buffer = "";
+    fclose(fd);
+    return 0;
   }
-  return find_result;
 }
 
 int registereduser() {
   FILE* fd = fopen("tutoraccounts.txt","r");
   printf("Type in your 4-digit ID for the username.\n");
   int username;
-  scanf("%i",&username);
+  char buffer[100];
+  fgets(buffer, 100, stdin);
   char passwd[16];
-  if (1000 <= username && username <= 9999) {
-    /*   
- char buffer[100];
-    strcpy(buffer,username);
-    int num;
-    num = does_user_exist(buffer);
-    printf("%s\n",buffer);
-    //     if (does_user_exist(buffer) != 0) {
-    */    
-char *in = passwd;
+  if (sscanf(buffer, "%d", &username)) {
+    char *in = passwd;
     struct termios  tty_orig;
     char c;
     tcgetattr( STDIN_FILENO, &tty_orig );
@@ -147,14 +148,9 @@ char *in = passwd;
 
     *in = '\0';
     fputc('\n', stdout);
-    return username;
-    //  }
-  } else {
-    printf("That account doesn't exist yet. Please register for a new account.\n");
-    username = newuser();
+    find_user_match(username);
     return username;
   }
-
 }
 
 int tutorlogin() {

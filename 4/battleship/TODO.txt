@@ -1,0 +1,15 @@
+AS of 1/25/16
+
+things to refine:
+a beter server client connection. we have been having initial struggles
+with sending our commands both ways
+things to add:
+-user input so that server and client may talk to each other
+-the functions from board.h that allow that user input to translate
+ to a game command 
+our stetch goals:
+- add cheat codes. If there's time we can 
+implement a way to guarantee a hit each time, to peek at the 
+opponent's board or bombard the board space to win instantly.
+-it seems less likely at this point, but a system that created
+ a network seems like it won't happen
