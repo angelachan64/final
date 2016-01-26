@@ -52,6 +52,8 @@ int main() {
   int players_memory_segment, players_memory_key;
   int* players;
   char* map;
+  // Read error
+  int n;
 
   // Set up signal handler to clean up memory when we kill the server.
   signal(SIGINT, clean_up_memory);
@@ -103,7 +105,7 @@ int main() {
       socket_client = accept(socket_id, NULL, NULL);
       printf("Client connected: %d\n", socket_client);
       players = shmat(players_memory_segment, 0, 0);
-      
+
       // Assign and send the client their player name / uid.
       sprintf(buffer, "%c", (char) (97 + *players));
       (*players)++;
@@ -118,13 +120,15 @@ int main() {
       case 0:
         // Child process - subserver dedicated to this client's input.
         map = shmat(map_memory_segment, 0, 0);
+        close(socket_id);
 
-        while (1) {
-          recv(socket_client, buffer, sizeof(buffer), 0);
+        while ( (n = recv(socket_client, buffer, sizeof(buffer), 0)) > 0)  {
           strtok(buffer, "\n");
           send(socket_client, buffer, sizeof(buffer), 0);
         }
-        break;
+        if (n < 0)
+          printf("%s\n", "Read error");
+        exit(0);
 
       default:
         // Parent process - close the socket client and wait for another client.
