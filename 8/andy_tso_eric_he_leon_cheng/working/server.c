@@ -144,11 +144,18 @@ void doprocessing (int sock) {
     printf("bout to set value\n");
     write_mssg->top_card.value = array[2];
     printf( "bout to set go\n");
-    strcpy(write_mssg->mssg, "go");
+    if ( array[1] == 100 ) 
+      strcpy(write_mssg->mssg, "END");
+    else 
+      strcpy(write_mssg->mssg, "go");
     printf( "mssg inside s %s\n", write_mssg->mssg );
-    shmdt( (void *)array );
     printf("bout to write\n");
     int x = write(sock, write_mssg, sizeof(init));
+    if ( array[1] == 100){
+      printf("Found winner. Disconnecting...\n");
+      exit(0);
+    }
+    shmdt( (void *)array );
     printf("i wrote\n");
     if (x < 0) {
       perror("ERROR writing topcard ");
@@ -189,7 +196,7 @@ void doprocessing (int sock) {
       printf("Here is the card: color %d value %d\n", read_card->color, read_card->value);
     
     array = (int *)shmat( shmid, 0, 0 );
-    if (read_card->color <= 20) {
+    if (read_card->color <= 20 || read_card->color == 100 ){
       array[1] = read_card->color;
       array[2] = read_card->value;
       
