@@ -90,6 +90,7 @@ void play_song(int socket_id){
   	return;
   }
   printf("gonna play now?\n");
+  free(mp3);
   playsong();
   //playsong code
   //  recieve mp3 file, save it to a temp file, play, delete it from the temp file
@@ -106,7 +107,6 @@ int main(int argc, char **argv) {
   inet_aton( "127.0.0.1", &(sock.sin_addr) );
   if (bind( socket_id, (struct sockaddr *)&sock, sizeof(sock)) < 0){
   	printf("errno: %s\n", strerror(errno));
-  	exit(0);
   }
   i = connect(socket_id, (struct sockaddr *)&sock, sizeof(sock));
   if (i < 0 ){

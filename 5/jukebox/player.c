@@ -7,6 +7,8 @@ int playsong(){
 
 //char * command1[3];
 //char * command2[3];
+   // int pid = fork();
+   // if (pid == 0){
   char * pointers[3];
   
   #ifdef __linux__
@@ -17,5 +19,6 @@ int playsong(){
   pointers[1] = "temp.mp3";
   pointers[2] = NULL;
   execvp(pointers[0], pointers);
+// }
   return 0;
 }
